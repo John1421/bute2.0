@@ -14,13 +14,37 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        "primary": "#4F952F",
+        primary: {
+          100: '#4f952f',
+          200: '#64a147',
+          300: '#78ac5e',
+          400: '#8cb874',
+          500: '#9fc48a',
+          600: '#b2d0a1',
+        },
+        surface:{
+          100: '#9a9d9a',
+          200: '#b0b3b0',
+          300: '#c9cdc9',
+          400: '#e1e4e1',
+          500: '#fbfefb',
+          600: '#ffffff',
+        },
+        "surface-dark": {
+          100: '#121212',
+          200: '#282828',
+          300: '#3f3f3f',
+          400: '#575757',
+          500: '#717171',
+          600: '#8b8b8b',
+        },
+
         "headings": "#774936",
-        "bg-strong": "#ffffff",
-        "bg-weak": "#fbfefb",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ],
 };
 export default config;

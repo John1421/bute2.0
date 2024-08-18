@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Courier_Prime } from "next/font/google";
+import { Oswald } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 
 const courierPrime = Courier_Prime({ weight: '400', subsets: ["latin"] });
+const oswald = Oswald({ weight: '400', subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,9 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${courierPrime.className} bg-bg-weak`}>
+      <body className={`${oswald.className} bg-surface-500 dark:bg-surface-dark-200`}>
         <NavBar />
-        {children}
+        <main className="md:overflow-hidden">
+          {children}
+        </main>
       </body>
     </html>
   );
