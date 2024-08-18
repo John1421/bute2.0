@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import { processSong } from './SongCompiler';
+import { processSong } from './[id]/page';
 
 
 const Btn = () => {

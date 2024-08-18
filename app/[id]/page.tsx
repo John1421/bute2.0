@@ -5,6 +5,7 @@ import path from 'path';
 const chordPattern = /^[A-G](#|b)?(m|sus|dim|aug)?\d?(add\d|maj7|m7)?$/;
 
 async function processSongFile(filePath: string) {
+  console.log(filePath)
   const fileContent = await fs.readFile(filePath, 'utf8');
   const lines = fileContent.split('\n');
 
@@ -32,8 +33,9 @@ async function processSongFile(filePath: string) {
 }
 
 // Server Component for displaying the song data
-export default async function SongComponent() {
-  const filePath = path.join(process.cwd(), '/Music/Taizé/Magnificat.txt');
+export default async function Page({ params }: { params: { id: string } }) {
+  const id = params.id.replace('%20', ' ')
+  const filePath = path.join(process.cwd(), `/Music/Taizé/${id}.txt`);
   const songStructure = await processSongFile(filePath);
 
   return (
