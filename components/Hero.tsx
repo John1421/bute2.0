@@ -2,7 +2,7 @@ import React from 'react'
 import { FlipWords } from './ui/flip-words'
 import { AuroraBackground } from './ui/aurora-background';
 import { oswald } from './ui/fonts';
-import { cn } from '@/lib/utils';
+import { cn } from '@/app/lib/utils';
 import LinkButton from './ui/button-link';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 

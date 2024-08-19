@@ -1,23 +1,17 @@
 'use client';
 
-// import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
   MusicalNoteIcon,
   ServerStackIcon,
-  UserCircleIcon,
 } from '@heroicons/react/24/outline';
-// import { Button } from '@/app/ui/button';
-// import { createInvoice, State } from '@/app/lib/actions';
+import { createInvoice, State } from '@/app/lib/actions';
 import { useActionState } from 'react';
 import { Button } from '../button';
 
 export default function Form() {
-  // const initialState: State = { message: null, errors: {} };
-  // const [state, formAction] = useActionState(createInvoice, initialState);
+  const initialState: State = { message: null, errors: {} };
+  const [state, formAction] = useActionState(createInvoice, initialState);
   return (
     <form action={() => {}}>
       <div className="rounded-md bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark p-4 md:p-6 mt-8">
