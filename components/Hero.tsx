@@ -17,7 +17,7 @@ const Hero = () => {
           Bute lá <br />
           <FlipWords words={words} className="font-extrabold text-7xl md:text-8xl text-surface-dark-100 dark:text-surface-500 " />{/*text-primary-100*/}
         </div>
-        <LinkButton  href="/songs" text='Bute' icon={<FaLocationArrow />} textOnMobile className="flex justify-center items-center"/>
+        <LinkButton  href="/songs" text='Bute' icon={<FaLocationArrow />} textOnMobile className="w-[20rem] h-10 flex justify-center items-center"/>
       </section>
     </div>
 

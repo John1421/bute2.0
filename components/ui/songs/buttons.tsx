@@ -6,13 +6,13 @@ import ButtonLink from '../button-link';
 
 export function CreateSong() {
   return (
-    <ButtonLink href="/songs/create" text="Adicionar Música" icon={<PlusIcon className="h-5 md:ml-4" />} className='flex justify-end w-[20wh]'/>
+    <ButtonLink href="/songs/create" text="Adicionar Música" icon={<PlusIcon className="h-5 md:ml-4" />} className='w-12 md:w-[20rem] h-10'/>
   );
 }
 
-export function UpdateInvoice({ id }: { id: string }) {
+export function UpdateSong({ id }: { id: string }) {
   return (
-    <ButtonLink href={`/songs/${id}/edit`} text="Editar" icon={<PencilIcon className="w-5" />} />
+    <ButtonLink href={`/songs/${id}/edit`} text="" icon={<PencilIcon className="w-5" />} className='w-8 h-8 md:w-10 md:h-10'/>
     // <Link
     //   href={`/songs/${id}/edit`}
     //   className="rounded-md border p-2 hover:bg-gray-100"
