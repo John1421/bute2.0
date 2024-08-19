@@ -35,7 +35,7 @@ async function processSongFile(filePath: string) {
 // Server Component for displaying the song data
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id.replace('%20', ' ')
-  const filePath = path.join(process.cwd(), `/Music/Taizé/${id}.txt`);
+  const filePath = path.join(process.cwd(), `/songs/Taizé/${id}.txt`);
   const songStructure = await processSongFile(filePath);
 
   return (
