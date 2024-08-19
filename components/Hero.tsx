@@ -3,6 +3,7 @@ import { FlipWords } from './ui/flip-words'
 import MagicButton from './ui/magic-button';
 import { AuroraBackground } from './ui/aurora-background';
 import { FaLocationArrow } from 'react-icons/fa';
+import Link from 'next/link';
 
 const Hero = () => {
 	const words = ["CANTAR", "Viver", "Saborear"];
@@ -15,7 +16,9 @@ const Hero = () => {
           Bute lá <br />
           <FlipWords words={words} className="font-extrabold text-7xl md:text-8xl text-primary-100" />
         </div>
-        <MagicButton text='Bute' icon={<FaLocationArrow />} />
+        <Link href="/songs" className='w-full'>
+          <MagicButton text='Bute' icon={<FaLocationArrow />} />
+        </Link>
       </section>
     </div>
 
