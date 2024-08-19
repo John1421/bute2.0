@@ -6,7 +6,7 @@ import ButtonLink from '../button-link';
 
 export function CreateSong() {
   return (
-    <ButtonLink href="/songs/create" text="Adicionar Música" icon={<PlusIcon className="h-5 md:ml-4" />}/>
+    <ButtonLink href="/songs/create" text="Adicionar Música" icon={<PlusIcon className="h-5 md:ml-4" />} className='flex justify-end w-[20wh]'/>
   );
 }
 
