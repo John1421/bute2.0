@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { UpdateSong } from './buttons';
+import { PlayCircleIcon, PlayIcon } from '@heroicons/react/24/outline';
 // import InvoiceStatus from '@/app/ui/invoices/status';
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 // import { fetchFilteredInvoices } from '@/app/lib/data';
@@ -12,7 +13,7 @@ export default async function InvoicesTable({
   currentPage: number;
 }) {
   // const invoices = await fetchFilteredInvoices(query, currentPage);
-  await new Promise((resolve) => setTimeout(resolve, 2500));
+  // await new Promise((resolve) => setTimeout(resolve, 2500));
   const songs = [
     {
       id: 1,
@@ -36,82 +37,29 @@ export default async function InvoicesTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-surface-400 dark:bg-surface-dark-300 p-2 text-text dark:text-text-dark">
           {/* For Mobile */}
-          <div className="md:hidden">
+          <div className="">
             {songs?.map((song) => (
               <div
                 key={song.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
+                className="mb-2 w-full rounded-md bg-surface-600 dark:bg-surface-dark-400 p-4"
               >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="mb-2 flex items-center">
-                      <p>{song.name}</p>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center justify-between md:w-[75%]">
+                    <div>
+                      <div className="mb-2 flex items-center font-bold text-heading dark:text-heading-dark">
+                        <h3>{song.name}</h3>
+                      </div>
+                      <p className="text-xs">{song.autor}</p>
                     </div>
-                    <p className="text-sm text-gray-500">{song.autor}</p>
+                    <p className="text-xs hidden md:block">PUT TAGS HERE</p>
                   </div>
-                  PUT TAGS HERE
-                  {/* <InvoiceStatus status={song.status} /> */}
+                  <PlayIcon className='flex w-8 text-primary-500'/>
                 </div>
-                {/* <div className="flex w-full items-center justify-between pt-4">
-                  <div className="flex justify-end items-center gap-2">
-                    <UpdateSong id={`${song.id}`} />
-                    <UpdateSong id={`${song.id}`} />
-                    <DeleteInvoice id={song.id} />
-                  </div>
-                </div> */}
               </div>
             ))}
           </div>
-
-          {/* For Pc */}
-          <table className="hidden min-w-full text-surface-dark-100 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
-              <tr>
-                <th scope="col" className="px-4 py-5 font-medium">
-                  Nome
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Autor
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Tags
-                </th>
-                {/* <th scope="col" className="relative py-3 pl-5">
-                  <span className="sr-only">Editar</span>
-                </th> */}
-              </tr>
-            </thead>
-            <tbody className="bg-white">
-              {songs?.map((song) => (
-                <tr
-                  key={song.id}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
-                >
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {song.name}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {song.autor}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {song.tags}
-                  </td>
-                  {/* <td className="whitespace-nowrap px-3 py-3">
-                    <InvoiceStatus status={song.status} />
-                  </td> */}
-                  <td className="whitespace-nowrap px-3 py-3">
-                    <div className="flex justify-end gap-3">
-                      <UpdateSong id={`${song.id}`} />
-                      <UpdateSong id={`${song.id}`} />
-                      {/* <DeleteInvoice id={song.id} /> */}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     </div>

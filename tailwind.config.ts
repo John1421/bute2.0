@@ -44,6 +44,7 @@ const config: Config = {
           200: '#b0b3b0',
           300: '#c9cdc9',
           400: '#e1e4e1',
+          450: '#ebeeeb',
           500: '#fbfefb',
           600: '#ffffff',
         },
@@ -56,7 +57,16 @@ const config: Config = {
           600: '#8b8b8b',
         },
 
-        "headings": "#774936",
+        "heading": "#282828",
+        "heading-dark": "#fbfefb",
+
+        "text": "#3f3f3f",
+        "text-dark": "#e1e4e1",
+
+        "placeholder": "#575757",
+        "placeholder-dark": "#c9cdc9",
+
+        
       },
     },
   },
