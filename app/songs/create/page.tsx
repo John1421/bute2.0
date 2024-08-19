@@ -11,9 +11,9 @@ export default async function Page() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Songs', href: '/songs' },
+          { label: 'Músicas', href: '/songs' },
           {
-            label: 'Add Song',
+            label: 'Adicionar Música',
             href: '/songs/create',
             active: true,
           },

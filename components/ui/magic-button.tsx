@@ -1,4 +1,3 @@
-import { cn } from '@/lib/utils'
 import React from 'react'
 
 const MagicButton = ({text, icon}:{text:string, icon?:React.ReactNode}) => {
