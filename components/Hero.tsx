@@ -1,10 +1,10 @@
 import React from 'react'
 import { FlipWords } from './ui/flip-words'
 import { AuroraBackground } from './ui/aurora-background';
-import { FaLocationArrow } from 'react-icons/fa';
 import { oswald } from './ui/fonts';
 import { cn } from '@/lib/utils';
 import LinkButton from './ui/button-link';
+import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 
 const Hero = () => {
 	const words = ["CANTAR", "VIVER", "SABOREAR"];
@@ -17,7 +17,7 @@ const Hero = () => {
           Bute lá <br />
           <FlipWords words={words} className="font-extrabold text-7xl md:text-8xl text-surface-dark-100 dark:text-surface-500 " />{/*text-primary-100*/}
         </div>
-        <LinkButton  href="/songs" text='Bute' icon={<FaLocationArrow />} textOnMobile className="w-[20rem] h-10 flex justify-center items-center"/>
+        <LinkButton  href="/songs" text='Bute' icon={<PaperAirplaneIcon  className='w-5 ml-3' />} textOnMobile className="w-[20rem] h-10 flex justify-center items-center"/>
       </section>
     </div>
 
