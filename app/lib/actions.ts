@@ -155,15 +155,15 @@ async function createSongQueries(
 //   redirect('/dashboard/invoices');
 // }
 
-// export async function deleteInvoice(id: string) {
-//   try {
-//     await sql`DELETE FROM invoices WHERE id = ${id}`;
-//     revalidatePath('/dashboard/invoices');
-//     return { message: 'Deleted Invoice.' };
-//   } catch (error) {
-//     return { message: 'Database Error: Failed to Delete Invoice.' };
-//   }
-// }
+export async function deleteSong(id: string) {
+  try {
+    await sql`DELETE FROM songs WHERE id = ${id}`;
+    revalidatePath('/dashboard/invoices');
+    return { message: 'Deleted Song.' };
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete Song.' };
+  }
+}
 
 
 // export async function authenticate(

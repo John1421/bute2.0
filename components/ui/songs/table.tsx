@@ -1,6 +1,4 @@
-import Image from 'next/image';
-import { UpdateSong } from './buttons';
-import { PlayCircleIcon, PlayIcon } from '@heroicons/react/24/outline';
+import { DeleteSong, UpdateSong } from './buttons';
 import { fetchFilteredSongs } from '@/app/lib/database/data';
 // import InvoiceStatus from '@/app/ui/invoices/status';
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
@@ -14,27 +12,6 @@ export default async function InvoicesTable({
   currentPage: number;
 }) {
   const songs = await fetchFilteredSongs(query, currentPage);
-  // await new Promise((resolve) => setTimeout(resolve, 2500));
-  // const songs = [
-  //   {
-  //     id: 1,
-  //     name: "De noche",
-  //     autor: "asd",
-  //     tags: "A, B"
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Magnificat",
-  //     autor: "B",
-  //     tags: "A, B"
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Abubdasubdsdufbapdfb",
-  //     autor: "asd",
-  //     tags: "A, B, C"
-  //   },
-  // ]
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -56,7 +33,13 @@ export default async function InvoicesTable({
                     </div>
                     <p className="text-xs hidden md:block">PUT TAGS HERE</p>
                   </div>
-                  <PlayIcon className='flex w-8 text-primary-500'/>
+                  {/* <PlayIcon className='flex w-8 text-primary-500'/> */}
+                  <div className="flex items-center justify-between pt-4">
+                    <div className="flex justify-end gap-2">
+                      <UpdateSong id={song.id} />
+                      <DeleteSong id={song.id} />
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
