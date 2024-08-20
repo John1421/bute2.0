@@ -4,6 +4,8 @@ import { InvoicesTableSkeleton } from "@/components/ui/skeletons";
 import { CreateSong } from "@/components/ui/songs/buttons";
 import Table from "@/components/ui/songs/table";
 import { Suspense } from "react";
+import { fetchSongsPages } from "../lib/database/data";
+import Pagination from "@/components/ui/songs/pagination";
 
 export default async function Home({
     searchParams,
@@ -16,7 +18,7 @@ export default async function Home({
 
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  // const totalPages = await fetchInvoicesPages(query);
+  const totalPages = await fetchSongsPages(query);
 
   return (
     <div className="w-full">
@@ -27,11 +29,11 @@ export default async function Home({
         <Search placeholder="Pesquisa..." />
         <CreateSong />
       </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      {/* <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}> */}
         <Table query={query} currentPage={currentPage} />
-      </Suspense>
+      {/* </Suspense> */}
       <div className="mt-5 flex w-full justify-center">
-        {/* <Pagination totalPages={totalPages} /> */}
+        <Pagination totalPages={totalPages} />
       </div>
     </div>
 );

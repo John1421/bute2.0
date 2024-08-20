@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { UpdateSong } from './buttons';
 import { PlayCircleIcon, PlayIcon } from '@heroicons/react/24/outline';
+import { fetchFilteredSongs } from '@/app/lib/database/data';
 // import InvoiceStatus from '@/app/ui/invoices/status';
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 // import { fetchFilteredInvoices } from '@/app/lib/data';
@@ -12,28 +13,28 @@ export default async function InvoicesTable({
   query: string;
   currentPage: number;
 }) {
-  // const invoices = await fetchFilteredInvoices(query, currentPage);
+  const songs = await fetchFilteredSongs(query, currentPage);
   // await new Promise((resolve) => setTimeout(resolve, 2500));
-  const songs = [
-    {
-      id: 1,
-      name: "De noche",
-      autor: "asd",
-      tags: "A, B"
-    },
-    {
-      id: 2,
-      name: "Magnificat",
-      autor: "B",
-      tags: "A, B"
-    },
-    {
-      id: 3,
-      name: "Abubdasubdsdufbapdfb",
-      autor: "asd",
-      tags: "A, B, C"
-    },
-  ]
+  // const songs = [
+  //   {
+  //     id: 1,
+  //     name: "De noche",
+  //     autor: "asd",
+  //     tags: "A, B"
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Magnificat",
+  //     autor: "B",
+  //     tags: "A, B"
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Abubdasubdsdufbapdfb",
+  //     autor: "asd",
+  //     tags: "A, B, C"
+  //   },
+  // ]
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -49,9 +50,9 @@ export default async function InvoicesTable({
                   <div className="flex items-center justify-between md:w-[75%]">
                     <div>
                       <div className="mb-2 flex items-center font-bold text-heading dark:text-heading-dark">
-                        <h3>{song.name}</h3>
+                        <h3>{song.title}</h3>
                       </div>
-                      <p className="text-xs">{song.autor}</p>
+                      <p className="text-xs">{song.file_path}</p>
                     </div>
                     <p className="text-xs hidden md:block">PUT TAGS HERE</p>
                   </div>

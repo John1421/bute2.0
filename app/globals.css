@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.icon {
+    @apply text-text dark:text-text-dark peer-focus:text-heading dark:peer-focus:text-heading-dark hover:text-heading dark:hover:text-heading-dark
+}
+
+.btnGlow {
+    @apply shadow-[0_4px_14px_0_rgb(100,161,71,39%)] hover:shadow-[0_6px_20px_rgba(100,161,71,23%)] bg-primary-200
+}
