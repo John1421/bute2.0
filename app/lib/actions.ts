@@ -158,7 +158,7 @@ async function createSongQueries(
 export async function deleteSong(id: string) {
   try {
     await sql`DELETE FROM songs WHERE id = ${id}`;
-    revalidatePath('/dashboard/invoices');
+    revalidatePath('/songs');
     return { message: 'Deleted Song.' };
   } catch (error) {
     return { message: 'Database Error: Failed to Delete Song.' };
