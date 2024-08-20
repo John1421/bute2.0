@@ -1,8 +1,7 @@
-import { DeleteSong, UpdateSong } from './buttons';
 import { fetchFilteredSongs } from '@/app/lib/database/data';
-// import InvoiceStatus from '@/app/ui/invoices/status';
-// import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-// import { fetchFilteredInvoices } from '@/app/lib/data';
+import React from 'react';
+import Link from 'next/link';
+import { DeleteSong, UpdateSong } from './buttons';
 
 export default async function InvoicesTable({
   query,
@@ -19,30 +18,35 @@ export default async function InvoicesTable({
           {/* For Mobile */}
           <div className="">
             {songs?.map((song) => (
+              <div key={song.id}>
               <div
-                key={song.id}
                 className="mb-2 w-full rounded-md bg-surface-600 dark:bg-surface-dark-400 p-4"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center justify-between md:w-[75%]">
-                    <div>
-                      <div className="mb-2 flex items-center font-bold text-heading dark:text-heading-dark">
-                        <h3>{song.title}</h3>
+                >
+                
+                  <div className="flex items-center justify-between gap-2">
+                    <Link href={`/songs/${song.id}`} className='flex-grow'>
+                    <div className="flex items-center justify-between md:w-[75%]">
+                      <div>
+                        <div className="mb-2 flex items-center font-bold text-heading dark:text-heading-dark">
+                          <h3>{song.title}</h3>
+                        </div>
+                        <p className="text-xs">{song.file_path}</p>
                       </div>
-                      <p className="text-xs">{song.file_path}</p>
+                      <p className="text-xs hidden md:block">PUT TAGS HERE</p>
                     </div>
-                    <p className="text-xs hidden md:block">PUT TAGS HERE</p>
-                  </div>
-                  {/* <PlayIcon className='flex w-8 text-primary-500'/> */}
-                  <div className="flex items-center justify-between pt-4">
-                    <div className="flex justify-end gap-2">
-                      <UpdateSong id={song.id} />
-                      <DeleteSong id={song.id} />
+                    </Link>
+                    {/* <PlayIcon className='flex w-8 text-primary-500'/> */}
+                    <div className="flex items-center justify-between pt-4">
+                      <div className="flex justify-end gap-2">
+                        <UpdateSong id={song.id} />
+                        <DeleteSong id={song.id} />
+                      </div>
                     </div>
                   </div>
-                </div>
+
               </div>
-            ))}
+              </div>
+              ))}
           </div>
         </div>
       </div>

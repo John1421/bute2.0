@@ -1,4 +1,5 @@
 // components/SongComponent.tsx
+import { fetchSongById } from '@/app/lib/database/data';
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -34,8 +35,9 @@ async function processSongFile(filePath: string) {
 
 // Server Component for displaying the song data
 export default async function Page({ params }: { params: { id: string } }) {
-  const id = params.id.replace('%20', ' ')
-  const filePath = path.join(process.cwd(), `/songs/Taizé/${id}.txt`);
+  const song = await fetchSongById(params.id);
+  const filePath = path.join(process.cwd(), song.file_path);
+  
   const songStructure = await processSongFile(filePath);
 
   return (

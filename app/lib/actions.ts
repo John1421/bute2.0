@@ -130,7 +130,7 @@ export async function updateSong(id: string, formData: FormData) {
   }
   
   const { title, file_path, artists = [], tags = [] } = validatedFields.data;
-
+  
   try {
     await sql`
         UPDATE songs
@@ -140,7 +140,8 @@ export async function updateSong(id: string, formData: FormData) {
   } catch (error) {
     return { message: 'Database Error: Failed to Update Invoice.' };
   }
- 
+  
+  revalidatePath(`/songs/${id}`);
   revalidatePath('/songs');
   redirect('/songs');
 }
