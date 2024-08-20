@@ -16,19 +16,7 @@ const FormSchema = z.object({
 });
 
 const CreateSong = FormSchema.omit({ id: true });
-const UpdateInvoice = FormSchema.omit({ id: true });
-
-// Define the State type
-export type State = {
-  errors?: {
-    title?: string[];
-    file_path?: string[];
-    artists?: string[];
-    tags?: string[];
-  };
-  message?: string | null;
-};
-
+const UpdateSong = FormSchema.omit({ id: true });
 
 
 export async function createSong(formData: FormData) {
@@ -123,37 +111,39 @@ async function createSongQueries(
 }
 
 
-// export async function updateInvoice(id: string, formData: FormData) {
-//   // Validate the form data
-//   const validatedFields = CreateSong.safeParse({
-//     title: formData.get('title') as string,
-//     file_path: formData.get('file_path') as string,
-//     artists: formData.getAll('artists') as string[] | undefined,
-//     tags: formData.getAll('tags') as string[] | undefined,
-//   });
+export async function updateSong(id: string, formData: FormData) {
+  // Validate the form data
+  const validatedFields = UpdateSong.safeParse({
+    title: formData.get('title') as string,
+    file_path: formData.get('file_path') as string,
+    artists: formData.getAll('artists') as string[] | undefined,
+    tags: formData.getAll('tags') as string[] | undefined,
+  });
 
-//   console.log(validatedFields);
+  console.log(validatedFields);
 
-//   if (!validatedFields.success) {
-//     return {
-//       errors: validatedFields.error.flatten().fieldErrors,
-//       message: 'Missing Fields. Failed to Create Song.',
-//     };
-//   }
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Update Song.',
+    };
+  }
+  
+  const { title, file_path, artists = [], tags = [] } = validatedFields.data;
+
+  try {
+    await sql`
+        UPDATE songs
+        SET title = ${title}, file_path = ${file_path}
+        WHERE id = ${id}
+      `;
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update Invoice.' };
+  }
  
-//   try {
-//     await sql`
-//         UPDATE invoices
-//         SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-//         WHERE id = ${id}
-//       `;
-//   } catch (error) {
-//     return { message: 'Database Error: Failed to Update Invoice.' };
-//   }
- 
-//   revalidatePath('/dashboard/invoices');
-//   redirect('/dashboard/invoices');
-// }
+  revalidatePath('/songs');
+  redirect('/songs');
+}
 
 export async function deleteSong(id: string) {
   try {

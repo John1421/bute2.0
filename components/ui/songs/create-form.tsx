@@ -5,13 +5,10 @@ import {
   MusicalNoteIcon,
   ServerStackIcon,
 } from '@heroicons/react/24/outline';
-import { createSong, State } from '@/app/lib/actions';
-import { useActionState } from 'react';
+import { createSong } from '@/app/lib/actions';
 import { Button } from '../button';
 
 export default function Form() {
-  const initialState: State = { message: null, errors: {} };
-  // const [state, formAction] = useActionState(createSong, initialState);
   return (
     <form action={createSong}>
       <div className="rounded-md bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark p-4 md:p-6 mt-8">
