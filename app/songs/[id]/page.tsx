@@ -6,7 +6,10 @@ import path from 'path';
 const chordPattern = /^[A-G](#|b)?(m|sus|dim|aug)?\d?(add\d|maj7|m7)?$/;
 
 async function processSongFile(filePath: string) {
-  console.log(filePath)
+  const dirTree = require("directory-tree");
+  const tree = dirTree("./");
+  console.log(tree);
+
   const fileContent = await fs.readFile(filePath, 'utf8');
   const lines = fileContent.split('\n');
 
