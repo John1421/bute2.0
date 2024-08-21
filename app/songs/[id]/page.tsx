@@ -36,7 +36,7 @@ async function processSongFile(filePath: string) {
 // Server Component for displaying the song data
 export default async function Page({ params }: { params: { id: string } }) {
   const song = await fetchSongById(params.id);
-  const filePath = song.file_path;//path.join(process.cwd(), song.file_path);
+  const filePath = path.join(process.cwd(), song.file_path);
   
   const songStructure = await processSongFile(filePath);
 
