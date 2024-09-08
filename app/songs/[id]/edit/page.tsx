@@ -1,6 +1,6 @@
 import { fetchSongById } from '@/app/lib/database/data';
 import Breadcrumbs from '@/components/ui/songs/breadcrumbs';
-import Form from '@/components/ui/songs/edit-form';
+import Form from '@/components/ui/songs/form';
 import { notFound } from 'next/navigation';
  
 export default async function Page({ params }: { params: { id: string } }) {

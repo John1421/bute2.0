@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt">
       <body className={`${roboto.className} bg-surface-500 dark:bg-surface-dark-200`}>
         <NavBar />
         <main className="md:overflow-hidden">

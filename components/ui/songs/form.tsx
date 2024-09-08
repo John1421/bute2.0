@@ -3,18 +3,21 @@
 import Link from 'next/link';
 import {
   MusicalNoteIcon,
+  PlayIcon,
   ServerStackIcon,
 } from '@heroicons/react/24/outline';
-import { updateSong } from '@/app/lib/actions';
+import { createSong, updateSong } from '@/app/lib/actions';
 import { Button } from '../button';
-import { Song } from '@/app/lib/database/definitions';
+import { Song, SongForm } from '@/app/lib/database/definitions';
+import { cn } from '@/app/lib/utils';
+import { courierPrime } from '../fonts';
 
 export default function Form({
     song
-}: {song: Song}) {
-  const updateSongWithId = updateSong.bind(null, song.id);
+}: {song?: Song}) {
+  const action = song?updateSong.bind(null, song.id):createSong;
   return (
-    <form action={updateSongWithId}>
+    <form action={action}>
       <div className="rounded-md bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark p-4 md:p-6 mt-8">
         {/* Song Title */}
         <div className="mb-4">
@@ -29,7 +32,7 @@ export default function Form({
                 type="text"
                 placeholder="Nome da música"
                 className="peer block w-full rounded-md border border-surface-200 dark:border-surface-dark-500 bg-surface-600 dark:bg-surface-dark-300 py-2 pl-10 text-sm outline-2 placeholder:text-placeholder dark:placeholder:text-placeholder-dark"
-                defaultValue={song.title}
+                defaultValue={song?.title}
                 required
               />
               <MusicalNoteIcon  className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 icon" />
@@ -50,10 +53,33 @@ export default function Form({
                 type="text"
                 placeholder="File path"
                 className="peer block w-full rounded-md border border-surface-200 dark:border-surface-dark-500 bg-surface-600 dark:bg-surface-dark-300 py-2 pl-10 text-sm outline-2 placeholder:text-placeholder dark:placeholder:text-placeholder-dark"
-                defaultValue={song.file_path}
+                defaultValue={song?.file_path}
                 required
               />
               <ServerStackIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 icon" />
+            </div>
+          </div>
+        </div>
+
+        {/* Data */}
+        <div className="mb-4">
+          <label htmlFor="data" className="mb-2 block text-sm font-medium">
+            Data
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <textarea
+                id="data"
+                name="data"
+                placeholder="Data"
+                className={cn(
+                    "peer block w-full rounded-md border border-surface-200 dark:border-surface-dark-500 bg-surface-600 dark:bg-surface-dark-300 py-2 pl-10 text-sm outline-2 placeholder:text-placeholder dark:placeholder:text-placeholder-dark",
+                    courierPrime.className
+                )}
+                defaultValue={song?.data}
+                required
+              />
+              <PlayIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 icon" />
             </div>
           </div>
         </div>
@@ -65,7 +91,7 @@ export default function Form({
         >
           Cancel
         </Link>
-        <Button type="submit">Guardar</Button>
+        <Button type="submit">{song?"Guardar":"Adicionar"}</Button>
       </div>
     </form>
   );
