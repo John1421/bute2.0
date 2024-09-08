@@ -1,11 +1,9 @@
 import Search from "@/components/Search";
 import { oswald } from "@/components/ui/fonts";
-import { InvoicesTableSkeleton } from "@/components/ui/skeletons";
 import { CreateSong } from "@/components/ui/songs/buttons";
-import Table from "@/components/ui/songs/table";
-import { Suspense } from "react";
-import { fetchSongsPages } from "../lib/database/data";
 import Pagination from "@/components/ui/songs/pagination";
+import Table from "@/components/ui/songs/table";
+import { fetchSongsPages } from "../lib/database/data";
 
 export default async function Home({
     searchParams,
@@ -21,20 +19,19 @@ export default async function Home({
   const totalPages = await fetchSongsPages(query);
 
   return (
-    <div className="w-full">
-      <div className="flex w-full items-center justify-between">
-        <h1 className={`${oswald.className} text-2xl text-heading dark:text-heading-dark`}>Músicas</h1>
-      </div>
-      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+    <div className="flex-col-center gap-4">
+
+      <h1 className={`flex-row-between w-full text-xbold text-large ${oswald.className}`}>Músicas</h1>
+
+      <div className="flex-row-center gap-2 w-full">
         <Search placeholder="Pesquisa..." />
         <CreateSong />
       </div>
-      {/* <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}> */}
-        <Table query={query} currentPage={currentPage} />
-      {/* </Suspense> */}
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
+
+      <Table query={query} currentPage={currentPage} />
+
+      <Pagination totalPages={totalPages} />
+
     </div>
-);
+  );
 }

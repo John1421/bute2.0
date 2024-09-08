@@ -12,7 +12,7 @@ export default async function InvoicesTable({
 }) {
   const songs = await fetchFilteredSongs(query, currentPage);
   return (
-    <div className="mt-6 flow-root">
+    <div className="flow-root w-full">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg p-2 bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark">
           {/* For Mobile */}
