@@ -46,15 +46,14 @@ export default function Uploader({ onFileSelect }: { onFileSelect: (file: File |
   return (
     <div className="grid gap-6">
       <div>
-        <div className="space-y-1 mb-4">
-          <h2 className="text-xl font-semibold">Upload a file</h2>
+        {/* <div className="space-y-1 mb-4">
           <p className="text-sm text-gray-500">
             Accepted formats: .png, .jpg, .gif, .mp4, .txt, .pdf
           </p>
-        </div>
+        </div> */}
         <label
           htmlFor="file-upload"
-          className="group relative mt-2 flex h-72 cursor-pointer flex-col items-center justify-center rounded-md border border-gray-300 bg-white shadow-sm transition-all hover:bg-gray-50"
+          className="group relative mt-2 flex h-72 cursor-pointer flex-col items-center justify-center rounded-md border border-gray-300 bg-surface-600 dark:bg-surface-dark-300 shadow-sm transition-all"
         >
           <input
             id="file-upload"
@@ -67,12 +66,12 @@ export default function Uploader({ onFileSelect }: { onFileSelect: (file: File |
           <div
             className={`absolute z-[3] flex h-full w-full flex-col items-center justify-center rounded-md px-10 transition-all ${
               data.filePreview
-                ? 'bg-white/80 opacity-0 hover:opacity-100 hover:backdrop-blur-md'
-                : 'bg-white opacity-100 hover:bg-gray-50'
+                ? 'bg-surface-600/80 dark:bg-surface-dark-300/80 opacity-0 hover:opacity-100 hover:backdrop-blur-md'
+                : 'bg-surface-600 dark:bg-surface-dark-300 opacity-100'
             }`}
           >
             <svg
-              className="h-7 w-7 text-gray-500 transition-all duration-75 group-hover:scale-110 group-active:scale-95"
+              className="h-7 w-7 icon transition-all duration-75 group-hover:scale-110 group-active:scale-95"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -87,10 +86,10 @@ export default function Uploader({ onFileSelect }: { onFileSelect: (file: File |
               <path d="M12 12v9"></path>
               <path d="m16 16-4-4-4 4"></path>
             </svg>
-            <p className="mt-2 text-center text-sm text-gray-500">
+            <p className="mt-2 text-center text-sm text-light">
               Drag and drop or click to upload.
             </p>
-            <p className="mt-2 text-center text-sm text-gray-500">
+            <p className="mt-2 text-center text-sm text-light">
               Max file size: 50MB
             </p>
             <span className="sr-only">File upload</span>
