@@ -16,7 +16,7 @@ export default function Breadcrumbs({
 }) {
   return (
     <nav aria-label="Breadcrumb" className="mb-6 block">
-      <ol className={clsx(oswald.className, 'flex flex-wrap text-large')}>
+      <ol className={clsx(oswald.className, 'flex flex-col flex-wrap text-large')}>
         {breadcrumbs.map((breadcrumb, index) => (
           <li
             key={breadcrumb.href}
@@ -26,9 +26,6 @@ export default function Breadcrumbs({
             )}
           >
             <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
-            {index < breadcrumbs.length - 1 ? (
-              <span className="mx-3 inline-block">/</span>
-            ) : null}
           </li>
         ))}
       </ol>
