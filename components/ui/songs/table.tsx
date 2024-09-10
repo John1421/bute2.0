@@ -39,7 +39,7 @@ export default async function InvoicesTable({
                     <div className="flex items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">
                         <UpdateSong id={song.id} />
-                        <DeleteSong id={song.id} />
+                        <DeleteSong song={song} />
                       </div>
                     </div>
                   </div>

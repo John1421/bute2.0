@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { del, put } from '@vercel/blob';
+import { Song } from './database/definitions';
 // import { signIn } from '@/auth';
 // import { AuthError } from 'next-auth';
 
@@ -19,31 +21,32 @@ const CreateSong = FormSchema.omit({ id: true });
 const UpdateSong = FormSchema.omit({ id: true });
 
 
+
+
 export async function createSong(formData: FormData) {
-  // Validate the form data
-  const validatedFields = CreateSong.safeParse({
-    title: formData.get('title') as string,
-    file_path: formData.get('file_path') as string,
-    artists: formData.getAll('artists') as string[] | undefined,
-    tags: formData.getAll('tags') as string[] | undefined,
-  });
+  const title = formData.get('title') as string;
+  const file = formData.get('file') as Blob;
 
-  console.log(validatedFields);
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Song.',
-    };
+  if (!title || !file) {
+    return { success: false, message: 'Missing title or file' };
   }
 
-  const { title, file_path, artists = [], tags = [] } = validatedFields.data;
+  const contentType = file.type || 'application/octet-stream';
+  const filename = title; // Ensure unique filename generation
+
   try {
-    createSongQueries(title, file_path, artists, tags)
+    const blob = await put(filename, file, {
+      contentType,
+      access: 'public',
+    });
+
+    await createSongQueries(title, blob.url);
+
+
   } catch (error) {
-    return { message: 'Database Error: Failed to Create Song.' };
+    console.error('Failed to upload file or save song:', error);
+    return { success: false, message: 'Failed to upload file or save song' };
   }
-  
 
   revalidatePath('/songs');
   redirect('/songs');
@@ -147,9 +150,11 @@ export async function updateSong(id: string, formData: FormData) {
   redirect('/songs');
 }
 
-export async function deleteSong(id: string) {
+export async function deleteSong(song: Song) {
   try {
-    await sql`DELETE FROM songs WHERE id = ${id}`;
+    
+    await del(song.file_path);
+    await sql`DELETE FROM songs WHERE id = ${song.id}`;
     revalidatePath('/songs');
     return { message: 'Deleted Song.' };
   } catch (error) {

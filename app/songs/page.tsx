@@ -19,7 +19,7 @@ export default async function Home({
   const totalPages = await fetchSongsPages(query);
 
   return (
-    <div className="flex-col-center gap-4">
+    <div className="flex-col-center gap-8">
 
       <h1 className={`flex-row-between w-full text-xbold text-large ${oswald.className}`}>Músicas</h1>
 

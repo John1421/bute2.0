@@ -32,6 +32,10 @@
     @apply font-[100] text-surface-dark-300 dark:text-surface-300
 }
 
+.text-normal {
+    @apply font-normal text-surface-dark-200 dark:text-surface-400
+}
+
 .text-xbold {
     @apply font-extrabold text-surface-dark-100 dark:text-surface-500
 }

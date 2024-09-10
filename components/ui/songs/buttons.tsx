@@ -3,6 +3,7 @@ import Link from 'next/link';
 import MagicButton from '../magic-button';
 import ButtonLink from '../button-link';
 import { deleteSong } from '@/app/lib/actions';
+import { Song } from '@/app/lib/database/definitions';
 
 export function CreateSong() {
   return (
@@ -17,10 +18,10 @@ export function UpdateSong({ id }: { id: string }) {
 }
 
 
-export function DeleteSong({ id }: { id: string }) {
-  const deleteInvoiceWithId = deleteSong.bind(null, id);
+export function DeleteSong({ song }: { song: Song }) {
+  const deleteSongWithId = deleteSong.bind(null, song);
   return (
-    <form action={deleteInvoiceWithId}>
+    <form action={deleteSongWithId}>
       <button className="rounded-md border p-2 hover:bg-red-400">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />
