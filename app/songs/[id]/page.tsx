@@ -56,7 +56,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         ]}
       />
 
-      <div className={`text-light text-medium tracking-tight ${courierPrime.className}`}>
+      <div className={`text-light text-medium tracking-tighter ${courierPrime.className}`}>
         <div>
           {songStructure.mixedContent.map((line, index) => (
             <div key={index} style={{ whiteSpace: 'pre-wrap' }}>
