@@ -1,6 +1,7 @@
 // components/SongComponent.tsx
 import { fetchSongById } from '@/app/lib/database/data';
 import { courierPrime } from '@/components/ui/fonts';
+import Breadcrumbs from '@/components/ui/songs/breadcrumbs';
 
 
 
@@ -43,8 +44,17 @@ export default async function Page({ params }: { params: { id: string } }) {
   const songStructure = await processSongFile(filePath);
 
   return (
-    <section className="flex flex-col items-start gap-4 md:p-6">
-      <h2 className='text-xbold text-large'>{song.title}</h2>
+    <section className="flex flex-col items-start gap-4">
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Músicas', href: '/songs' },
+          {
+            label: song.title,
+            href: `/songs/${song.id}`,
+            active: true,
+          },
+        ]}
+      />
 
       <div className={`text-light text-medium tracking-tight ${courierPrime.className}`}>
         <div>
