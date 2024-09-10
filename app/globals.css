@@ -60,3 +60,7 @@
 .text-medium {
     @apply text-sm md:text-lg
 }
+
+.text-small {
+    @apply text-xs md:text-sm
+}
