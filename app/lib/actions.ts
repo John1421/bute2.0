@@ -141,7 +141,7 @@ export async function updateSong(id: string, formData: FormData) {
         WHERE id = ${id}
       `;
   } catch (error) {
-    return { message: 'Database Error: Failed to Update Invoice.' };
+    return { message: 'Database Error: Failed to Update Song.' };
   }
   
   revalidatePath(`/songs/${id}/edit`);

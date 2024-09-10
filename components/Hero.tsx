@@ -3,9 +3,11 @@ import { FlipWords } from './ui/flip-words'
 import { oswald } from './ui/fonts';
 import LinkButton from './ui/button-link';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import { revalidatePath } from 'next/cache';
 
 const Hero = () => {
 	const words = ["CANTAR", "VIVER", "SABOREAR"];
+  revalidatePath("/songs")
   return (
     <div className='w-full'>
       <section className="flex-col-center h-[80vh] w-full select-none text-center gap-6 p-8">
