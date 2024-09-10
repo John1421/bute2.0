@@ -3,14 +3,13 @@
 import Link from 'next/link';
 import {
   MusicalNoteIcon,
-  PlayIcon,
-  ServerStackIcon,
 } from '@heroicons/react/24/outline';
 import { createSong, updateSong } from '@/app/lib/actions'; // Adjust the import according to your setup
 import { Button } from '../button';
 import { Song } from '@/app/lib/database/definitions';
 import Uploader from '@/components/Uploader';
 import { useState } from 'react';
+
 
 export default function Form({ song }: { song?: Song }) {
 
@@ -36,7 +35,7 @@ export default function Form({ song }: { song?: Song }) {
     }}>
       <div className="rounded-md bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark p-4 md:p-6 mt-8">
         <div className="mb-4">
-          <label htmlFor="title" className="mb-2 block text-sm font-medium">
+          <label htmlFor="title" className="mb-2 block text-xl font-semibold">
             Nome
           </label>
           <div className="relative mt-2 rounded-md">
@@ -54,9 +53,8 @@ export default function Form({ song }: { song?: Song }) {
             </div>
           </div>
         </div>
-
         <div className="mb-4">
-          <label htmlFor="file" className="mb-2 block text-sm font-medium">
+          <label htmlFor="file" className="mb-2 block text-xl font-semibold">
             Upload File
           </label>
           <div className="relative mt-2 rounded-md">
