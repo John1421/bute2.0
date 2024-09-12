@@ -1,8 +1,9 @@
+import { fetchArtists } from '@/app/lib/database/data';
 import Breadcrumbs from '@/components/ui/songs/breadcrumbs';
 import Form from '@/components/ui/songs/form';
  
 export default async function Page() {
- 
+  const artists = await fetchArtists();
   return (
     <main>
       <Breadcrumbs
@@ -15,7 +16,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form  />
+      <Form  artists={artists}/>
     </main>
   );
 }

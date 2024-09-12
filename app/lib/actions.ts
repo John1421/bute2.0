@@ -5,7 +5,7 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { del, put } from '@vercel/blob';
-import { Song } from './database/definitions';
+import { Artist, Song } from './database/definitions';
 // import { signIn } from '@/auth';
 // import { AuthError } from 'next-auth';
 
@@ -21,7 +21,60 @@ const CreateSong = FormSchema.omit({ id: true });
 const UpdateSong = FormSchema.omit({ id: true });
 
 
+export async function createArtist(formData: FormData) {
+  const name = formData.get('name') as string;
 
+  if (!name) {
+    return { success: false, message: 'Missing name of artist' };
+  }
+
+  try {
+    const artistResult = await sql`
+      INSERT INTO artists (name)
+      VALUES (${name})
+      RETURNING id
+    `;
+
+  } catch (error) {
+    console.error('Failed to upload file or save song:', error);
+    return { success: false, message: 'Failed to upload file or save song' };
+  }
+
+  revalidatePath('/artists');
+  redirect('/artists');
+}
+export async function updateArtist(id: string, formData: FormData) {
+  const name = formData.get('name') as string;
+
+  if (!name) {
+    return { success: false, message: 'Missing name of artist' };
+  }
+  
+  try {
+    await sql`
+        UPDATE artists
+        SET name = ${name}
+        WHERE id = ${id}
+      `;
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update Artist.' };
+  }
+  
+  revalidatePath(`/artists/${id}/edit`);
+  revalidatePath(`/artists/${id}`);
+  revalidatePath('/artists');
+  redirect('/artists');
+}
+
+export async function deleteArtist(artist: Artist) {
+  try {
+    await sql`DELETE FROM artists WHERE id = ${artist.id}`;
+    revalidatePath('/artists');
+    return { message: 'Deleted Artist.' };
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete Artist.' };
+  }
+}
 
 export async function createSong(formData: FormData) {
   const title = formData.get('title') as string;

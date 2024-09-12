@@ -1,17 +1,16 @@
-import { fetchArtists, fetchSongById } from '@/app/lib/database/data';
+import { fetchArtistById, fetchSongById } from '@/app/lib/database/data';
 import Breadcrumbs from '@/components/ui/songs/breadcrumbs';
-import Form from '@/components/ui/songs/form';
+import Form, { ArtistForm } from '@/components/ui/songs/form';
 import { notFound } from 'next/navigation';
  
 export default async function Page({ params }: { params: { id: string } }) {
     
   const id = params.id;
-  const song = await fetchSongById(id);
-  console.log(song)
-  if(!song){
+  const artist = await fetchArtistById(id);
+  console.log(artist)
+  if(!artist){
     notFound();
   }
-  const artists = await fetchArtists();
   
   return (
     <main>
@@ -25,7 +24,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <Form song={song} artists={artists}/>
+      <ArtistForm artist={artist} />
     </main>
   );
 }

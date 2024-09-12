@@ -1,9 +1,9 @@
-import { fetchFilteredSongs } from '@/app/lib/database/data';
+import { fetchFilteredArtists, fetchFilteredSongs } from '@/app/lib/database/data';
 import React from 'react';
 import Link from 'next/link';
-import { DeleteSong, UpdateSong } from './buttons';
+import { DeleteArtist, DeleteSong, UpdateArtist, UpdateSong } from './buttons';
 
-export default async function SongsTable({
+export async function SongsTable({
   query,
   currentPage,
 }: {
@@ -37,6 +37,36 @@ export default async function SongsTable({
                 </div>
               </div> */}
 
+          </div>
+        </div>
+        ))}
+    </div>
+  );
+}
+
+export async function ArtistsTable({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) {
+  const artists = await fetchFilteredArtists(query, currentPage);
+  return (
+    <div className="w-full flex flex-col gap-2 rounded-lg p-2 bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark">
+      {artists?.map((artist) => (
+        <div key={artist.id}>
+          <div
+            className="w-full rounded-md bg-surface-600 dark:bg-surface-dark-400 p-4"
+            >
+              <Link href={`/artists/${artist.id}`}>
+                <h3 className='text-bold'>{artist.name}</h3>
+              </Link>
+
+              <div className=" hidden md:flex justify-end gap-2">
+              <UpdateArtist id={artist.id} />
+              <DeleteArtist artist={artist} />  
+              </div>
           </div>
         </div>
         ))}

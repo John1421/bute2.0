@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { Song } from './definitions';
+import { Artist, Song } from './definitions';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -37,7 +37,6 @@ export async function fetchFilteredSongs(
     throw new Error('Failed to fetch songs.');
   }
 }
-
 
 export async function fetchSongsPages(query: string) {
 
@@ -79,5 +78,87 @@ export async function fetchSongById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch Song.');
+  }
+}
+
+
+
+export async function fetchArtistsPages(query: string) {
+
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM artists
+    WHERE
+      artists.name ILIKE ${`%${query}%`}
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of songs.');
+  }
+}
+
+export async function fetchFilteredArtists(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const artists = await sql<Artist>`
+      SELECT
+        artists.id,
+        artists.name
+      FROM artists
+      WHERE
+        artists.name ILIKE ${`%${query}%`}
+      ORDER BY UPPER(artists.name)
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset};
+    `;
+
+    return artists.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch artists.');
+  }
+}
+export async function fetchArtists() {
+
+  try {
+    const artists = await sql<Artist>`
+      SELECT
+        artists.id,
+        artists.name
+      FROM artists
+      ORDER BY UPPER(artists.name)
+    `;
+
+    return artists.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch artists.');
+  }
+}
+
+
+
+export async function fetchArtistById(id: string) {
+  try {
+    const data = await sql<Artist>`
+      SELECT
+        artists.id,
+        artists.name
+      FROM artists
+      WHERE artists.id = ${id};
+    `;
+
+    const artist = data.rows
+
+    return artist[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch Artist by Id.');
   }
 }
