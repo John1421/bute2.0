@@ -2,6 +2,7 @@ import { fetchFilteredArtists, fetchFilteredSongs } from '@/app/lib/database/dat
 import React from 'react';
 import Link from 'next/link';
 import { DeleteArtist, DeleteSong, UpdateArtist, UpdateSong } from './buttons';
+import { isProduction } from '@/app/page';
 
 export async function SongsTable({
   query,
@@ -64,8 +65,14 @@ export async function ArtistsTable({
               </Link>
 
               <div className=" hidden md:flex justify-end gap-2">
-              <UpdateArtist id={artist.id} />
-              <DeleteArtist artist={artist} />  
+              {
+                isProduction?
+                null:
+                <>
+                  <UpdateArtist id={artist.id} />
+                  <DeleteArtist artist={artist} />  
+                </>
+              }
               </div>
           </div>
         </div>

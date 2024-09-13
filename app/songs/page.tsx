@@ -4,6 +4,7 @@ import { CreateSong } from "@/components/ui/songs/buttons";
 import Pagination from "@/components/ui/songs/pagination";
 import { SongsTable } from "@/components/ui/songs/table";
 import { fetchSongsPages } from "../lib/database/data";
+import { isProduction } from "../page";
 
 export default async function Home({
     searchParams,
@@ -25,7 +26,7 @@ export default async function Home({
 
       <div className="flex-row-center gap-2 w-full">
         <Search placeholder="Pesquisa..." />
-        <CreateSong />
+        {isProduction?null:<CreateSong />}
       </div>
 
       <SongsTable query={query} currentPage={currentPage} />

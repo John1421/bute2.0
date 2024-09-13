@@ -6,7 +6,6 @@ const NavBar = () => {
         <Link href="/songs">
           <h1 className="font-extrabold text-3xl md:text-5xl">B</h1>
         </Link>
-        <h1>Bute la cantar</h1>
     </nav>
   )
 }
