@@ -6,7 +6,7 @@ import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { revalidatePath } from 'next/cache';
 
 const Hero = () => {
-	const words = ["CANTAR", "VIVER", "SABOREAR"];
+	const words = ["CANTAR", "VIVER", "AMAR", "REZAR"];
   revalidatePath("/songs")
   return (
     <div className='w-full'>
