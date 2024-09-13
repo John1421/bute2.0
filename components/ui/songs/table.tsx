@@ -2,7 +2,8 @@ import { fetchFilteredArtists, fetchFilteredSongs } from '@/app/lib/database/dat
 import React from 'react';
 import Link from 'next/link';
 import { DeleteArtist, DeleteSong, UpdateArtist, UpdateSong } from './buttons';
-import { isProduction } from '@/app/page';
+import { isProduction } from '@/app/lib/utils';
+
 
 export async function SongsTable({
   query,

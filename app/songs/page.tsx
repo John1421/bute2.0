@@ -4,7 +4,8 @@ import { CreateSong } from "@/components/ui/songs/buttons";
 import Pagination from "@/components/ui/songs/pagination";
 import { SongsTable } from "@/components/ui/songs/table";
 import { fetchSongsPages } from "../lib/database/data";
-import { isProduction } from "../page";
+import { isProduction } from "../lib/utils";
+
 
 export default async function Home({
     searchParams,
