@@ -25,8 +25,15 @@ export async function SongsTable({
               </Link>
 
               <div className=" hidden md:flex justify-end gap-2">
-              <UpdateSong id={song.id} />
-              <DeleteSong song={song} />  
+                {
+                  isProduction?
+                  null:
+                  <>
+                    <UpdateSong id={song.id} />
+                    <DeleteSong song={song} />  
+                  </>
+                }
+
               </div>
 {/*                 
               <div className="flex items-center justify-between gap-2">
