@@ -8,8 +8,8 @@ export type Song = {
 export type SongForm = {
     id: string;
     title: string;
-    tags: String[];
-    artists: String[];
+    tags: Tag[];
+    artists: Artist[];
     file_path: String;
 };
   

@@ -6,13 +6,15 @@ interface MultiSelectProps {
   options: Artist[];
   selectedOptions: Artist[];
   onChange: (selected: Artist[]) => void;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
-const MultiSelect: React.FC<MultiSelectProps> = ({ options, selectedOptions, onChange }) => {
+
+const MultiSelect: React.FC<MultiSelectProps> = ({ options, selectedOptions, onChange, icon: Icon  }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  const setDropdown = (on:boolean) => {
+    setIsOpen(on);
   };
 
   const handleSelect = (option: Artist) => {
@@ -26,12 +28,14 @@ const MultiSelect: React.FC<MultiSelectProps> = ({ options, selectedOptions, onC
   return (
     <div className="relative bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark">
       <div
-        className="p-2 border border-surface-200 dark:border-surface-dark-500 bg-surface-600 dark:bg-surface-dark-300 rounded-md cursor-pointer"
-        onClick={toggleDropdown}
+        className="border border-surface-200 dark:border-surface-dark-500 bg-surface-600 dark:bg-surface-dark-300 rounded-md cursor-pointer"
+        onClick={setDropdown.bind(null, true)}
+        onBlur={setDropdown.bind(null, false)}
+        tabIndex={0}
       >
-        <div className="flex flex-wrap">
+        <div className="peer block w-full rounded-md border border-surface-200 dark:border-surface-dark-500 bg-surface-600 dark:bg-surface-dark-300 p-2  text-sm outline-2 placeholder:text-placeholder dark:placeholder:text-placeholder-dark pl-10">
           {selectedOptions.length === 0 ? (
-            <span className="text-gray-400">Select options...</span>
+            <span className="text-placeholder dark:text-placeholder-dark">Select options...</span>
           ) : (
             selectedOptions.map(option => (
               <span
@@ -42,9 +46,9 @@ const MultiSelect: React.FC<MultiSelectProps> = ({ options, selectedOptions, onC
               </span>
             ))
           )}
+          <Icon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 icon" aria-hidden="true" />
         </div>
-      </div>
-      {isOpen && (
+        {isOpen && (
         <div className="absolute z-10 mt-1 bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark border border-gray-300 rounded shadow-lg w-full max-h-60 overflow-y-auto">
           {options.map(option => (
             <div
@@ -61,6 +65,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({ options, selectedOptions, onC
           ))}
         </div>
       )}
+      </div>
+
     </div>
   );
 };

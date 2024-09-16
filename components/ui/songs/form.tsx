@@ -5,6 +5,9 @@ import {
   InformationCircleIcon,
   MusicalNoteIcon,
   PlusIcon,
+  TagIcon,
+  UserGroupIcon,
+  UsersIcon,
 } from '@heroicons/react/24/outline';
 import { createArtist, createSong, createTag, updateArtist, updateSong, updateTag } from '@/app/lib/actions'; // Adjust the import according to your setup
 import { Button } from '../button';
@@ -33,6 +36,10 @@ export default function Form({ song, artists, tags }: { song?: SongForm, artists
   const [selectedArtists, setSelectedArtists] = useState<Artist[]>([]);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
+  if(song) {
+    setSelectedArtists(song.artists);
+    setSelectedTags(song.tags)
+  }
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
@@ -70,6 +77,7 @@ export default function Form({ song, artists, tags }: { song?: SongForm, artists
             options={tags}
             selectedOptions={selectedTags}
             onChange={setSelectedTags}
+            icon={TagIcon}
           />
         </div>
         {/* <div className="mb-4">
@@ -99,7 +107,8 @@ export default function Form({ song, artists, tags }: { song?: SongForm, artists
           <MultiSelect
             options={artists}
             selectedOptions={selectedArtists}
-            onChange={setSelectedArtists}
+            onChange={setSelectedArtists} 
+            icon={UserGroupIcon}          
           />
         </div>
 
