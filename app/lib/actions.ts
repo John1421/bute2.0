@@ -40,6 +40,7 @@ export async function createArtist(formData: FormData) {
     return { success: false, message: 'Failed to upload file or save song' };
   }
 
+  revalidatePath('/songs/create');
   revalidatePath('/artists');
   redirect('/artists');
 }

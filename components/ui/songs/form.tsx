@@ -151,7 +151,7 @@ export function ArtistForm({ artist }: { artist?: Artist }){
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/songs"
+          href="/artists"
           className="flex h-10 items-center rounded-lg bg-surface-500 dark:bg-surface-dark-300 px-4 text-sm font-medium text-text dark:text-text-dark transition-colors hover:bg-surface-600 dark:hover:bg-surface-dark-400"
         >
           Cancel

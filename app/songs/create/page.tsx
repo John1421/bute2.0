@@ -4,6 +4,7 @@ import Form from '@/components/ui/songs/form';
  
 export default async function Page() {
   const artists = await fetchArtists();
+  console.log(artists);
   return (
     <main>
       <Breadcrumbs

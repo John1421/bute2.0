@@ -124,8 +124,8 @@ export async function fetchFilteredArtists(
     throw new Error('Failed to fetch artists.');
   }
 }
-export async function fetchArtists() {
 
+export async function fetchArtists() {
   try {
     const artists = await sql<Artist>`
       SELECT
