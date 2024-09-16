@@ -5,7 +5,7 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { del, put } from '@vercel/blob';
-import { Artist, Song } from './database/definitions';
+import { Artist, Song, Tag } from './database/definitions';
 // import { signIn } from '@/auth';
 // import { AuthError } from 'next-auth';
 
@@ -20,7 +20,13 @@ const FormSchema = z.object({
 const CreateSong = FormSchema.omit({ id: true });
 const UpdateSong = FormSchema.omit({ id: true });
 
+const SimpleSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+}).omit({ id: true });
 
+
+// ARTIST ACTIONS
 export async function createArtist(formData: FormData) {
   const name = formData.get('name') as string;
 
@@ -61,15 +67,16 @@ export async function updateArtist(id: string, formData: FormData) {
     return { message: 'Database Error: Failed to Update Artist.' };
   }
   
+  revalidatePath('/songs/create');
   revalidatePath(`/artists/${id}/edit`);
   revalidatePath(`/artists/${id}`);
   revalidatePath('/artists');
   redirect('/artists');
 }
-
 export async function deleteArtist(artist: Artist) {
   try {
     await sql`DELETE FROM artists WHERE id = ${artist.id}`;
+    revalidatePath('/songs/create');
     revalidatePath('/artists');
     return { message: 'Deleted Artist.' };
   } catch (error) {
@@ -77,6 +84,7 @@ export async function deleteArtist(artist: Artist) {
   }
 }
 
+// SONG ACTIONS
 export async function createSong(formData: FormData) {
   const title = formData.get('title') as string;
   const file = formData.get('file') as Blob;
@@ -105,7 +113,6 @@ export async function createSong(formData: FormData) {
   revalidatePath('/songs');
   redirect('/songs');
 }
-
 async function createSongQueries(
   title: string,
   file_path: string,
@@ -166,8 +173,6 @@ async function createSongQueries(
     `;
   }
 }
-
-
 export async function updateSong(id: string, formData: FormData) {
   // Validate the form data
   const validatedFields = UpdateSong.safeParse({
@@ -203,7 +208,6 @@ export async function updateSong(id: string, formData: FormData) {
   revalidatePath('/songs');
   redirect('/songs');
 }
-
 export async function deleteSong(song: Song) {
   try {
     
@@ -215,6 +219,70 @@ export async function deleteSong(song: Song) {
     return { message: 'Database Error: Failed to Delete Song.' };
   }
 }
+
+// TAG ACTIONS
+export async function createTag(formData: FormData) {
+  
+  const validatedFields = SimpleSchema.safeParse({
+    name: formData.get('name') as string,
+  });
+
+  if (!validatedFields.success) {
+    return { success: false, message: 'Missing tag name' };
+  }
+
+  try {
+    const tagResult = await sql`
+      INSERT INTO tags (name)
+      VALUES (${validatedFields.data.name})
+      RETURNING id
+    `;
+
+  } catch (error) {
+    console.error('Failed to create tag:', error);
+    return { success: false, message: 'Failed to create tag' };
+  }
+
+  revalidatePath('/songs/create');
+  revalidatePath('/tags');
+  redirect('/tags');
+}
+export async function updateTag(id: string, formData: FormData) {
+  const validatedFields = SimpleSchema.safeParse({
+    name: formData.get('name') as string,
+  });
+
+  if (!validatedFields.success) {
+    return { success: false, message: 'Missing tag name' };
+  }
+  
+  try {
+    await sql`
+        UPDATE tags
+        SET name = ${validatedFields.data.name}
+        WHERE id = ${id}
+      `;
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update tag.' };
+  }
+  
+  revalidatePath('/songs/create');
+  revalidatePath(`/tags/${id}/edit`);
+  revalidatePath(`/tags/${id}`);
+  revalidatePath('/tags');
+  redirect('/tags');
+}
+export async function deleteTag(tag: Tag) {
+  try {
+
+    await sql`DELETE FROM tags WHERE id = ${tag.id}`;
+    revalidatePath('/tags');
+    return { message: 'Deleted tag.' };
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete tag.' };
+  }
+}
+
 
 
 // export async function authenticate(

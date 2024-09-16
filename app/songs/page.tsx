@@ -1,10 +1,11 @@
 import Search from "@/components/Search";
 import { oswald } from "@/components/ui/fonts";
-import { CreateSong } from "@/components/ui/songs/buttons";
+
 import Pagination from "@/components/ui/songs/pagination";
 import { SongsTable } from "@/components/ui/songs/table";
 import { fetchSongsPages } from "../lib/database/data";
 import { isProduction } from "../lib/utils";
+import { CreateButton } from "@/components/ui/songs/buttons";
 
 
 export default async function Home({
@@ -27,7 +28,7 @@ export default async function Home({
 
       <div className="flex-row-center gap-2 w-full">
         <Search placeholder="Pesquisa..." />
-        {isProduction?null:<CreateSong />}
+        {isProduction?null:<CreateButton href={"/songs/create"} text={"Adicionar Música"} />}
       </div>
 
       <SongsTable query={query} currentPage={currentPage} />

@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { Artist, Song } from './definitions';
+import { Artist, Song, Tag } from './definitions';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -162,3 +162,65 @@ export async function fetchArtistById(id: string) {
     throw new Error('Failed to fetch Artist by Id.');
   }
 }
+
+export async function fetchTags() {
+  try {
+    const tags = await sql<Tag>`
+      SELECT
+        tags.id,
+        tags.name
+      FROM tags
+      ORDER BY UPPER(tags.name)
+    `;
+
+    return tags.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tags.');
+  }
+}
+
+
+export async function fetchTagsPages(query: string) {
+
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM tags
+    WHERE
+      tags.name ILIKE ${`%${query}%`}
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of tags.');
+  }
+}
+
+
+export async function fetchFilteredTags(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const tags = await sql<Tag>`
+      SELECT
+        tags.id,
+        tags.name
+      FROM tags
+      WHERE
+        tags.name ILIKE ${`%${query}%`}
+      ORDER BY UPPER(tags.name)
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset};
+    `;
+
+    return tags.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tags.');
+  }
+}
+

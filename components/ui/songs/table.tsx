@@ -1,7 +1,7 @@
-import { fetchFilteredArtists, fetchFilteredSongs } from '@/app/lib/database/data';
+import { fetchFilteredArtists, fetchFilteredSongs, fetchFilteredTags } from '@/app/lib/database/data';
 import React from 'react';
 import Link from 'next/link';
-import { DeleteArtist, DeleteSong, UpdateArtist, UpdateSong } from './buttons';
+import { DeleteArtist, DeleteSong, DeleteTag, UpdateButton } from './buttons';
 import { isProduction } from '@/app/lib/utils';
 
 
@@ -29,7 +29,7 @@ export async function SongsTable({
                   isProduction?
                   null:
                   <>
-                    <UpdateSong id={song.id} />
+                    <UpdateButton id={song.id} type={'songs'} />
                     <DeleteSong song={song} />  
                   </>
                 }
@@ -77,8 +77,45 @@ export async function ArtistsTable({
                 isProduction?
                 null:
                 <>
-                  <UpdateArtist id={artist.id} />
+                  <UpdateButton id={artist.id} type={'artists'} />
                   <DeleteArtist artist={artist} />  
+                </>
+              }
+              </div>
+          </div>
+        </div>
+        ))}
+    </div>
+  );
+}
+
+
+export async function TagsTable({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) {
+  const tags = await fetchFilteredTags(query, currentPage);
+  return (
+    <div className="w-full flex flex-col gap-2 rounded-lg p-2 bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark">
+      {tags?.map((tag) => (
+        <div key={tag.id}>
+          <div
+            className="w-full rounded-md bg-surface-600 dark:bg-surface-dark-400 p-4"
+            >
+              <Link href={`/artists/${tag.id}`}>
+                <h3 className='text-bold'>{tag.name}</h3>
+              </Link>
+
+              <div className=" hidden md:flex justify-end gap-2">
+              {
+                isProduction?
+                null:
+                <>
+                  <UpdateButton type='tags' id={tag.id} />
+                  <DeleteTag tag={tag} />  
                 </>
               }
               </div>
