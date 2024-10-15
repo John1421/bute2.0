@@ -5,20 +5,24 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { del, put } from '@vercel/blob';
-import { Artist, Song, Tag } from './database/definitions';
+import { Artist, Song, SongForm, Tag } from './database/definitions';
 // import { signIn } from '@/auth';
 // import { AuthError } from 'next-auth';
-
 const FormSchema = z.object({
-  id: z.string(),
-  title: z.string(),
+  title: z.string().min(1, { message: "Title is required" }),
   file_path: z.string(),
-  artists: z.array(z.string()).optional(),
-  tags: z.array(z.string()).optional(),
+  artists: z.array(z.object({
+    id: z.string(),
+    name: z.string()
+  })).optional(),
+  tags: z.array(z.object({
+    id: z.string(),
+    name: z.string()
+  })).optional(),
+  file: z.instanceof(Blob),
 });
+const CreateForm = FormSchema.omit({file_path: true})
 
-const CreateSong = FormSchema.omit({ id: true });
-const UpdateSong = FormSchema.omit({ id: true });
 
 const SimpleSchema = z.object({
   id: z.string(),
@@ -87,37 +91,55 @@ export async function deleteArtist(artist: Artist) {
 // SONG ACTIONS
 export async function createSong(formData: FormData) {
   const title = formData.get('title') as string;
+  const file_path = formData.get('file_path') as string;
   const file = formData.get('file') as Blob;
 
-  if (!title || !file) {
-    return { success: false, message: 'Missing title or file' };
+  const artistsJson = formData.get('artists');
+  const tagsJson = formData.get('tags');
+
+  const artists : Artist[]= artistsJson ? JSON.parse(artistsJson as string) : undefined;
+  const tags : Tag[] = tagsJson ? JSON.parse(tagsJson as string) : undefined;
+
+  const validatedFields = FormSchema.safeParse({
+    title,
+    file_path,
+    artists,
+    tags,
+    file
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to create Song.',
+    };
   }
 
-  const contentType = file.type || 'application/octet-stream';
-  const filename = title; // Ensure unique filename generation
+  const song = validatedFields.data;
 
   try {
-    const blob = await put(filename, file, {
-      contentType,
+    const blob = await put(song.title, song.file, {
+      contentType: song.file.type || 'application/octet-stream',
       access: 'public',
     });
 
-    await createSongQueries(title, blob.url);
+    await createSongQueries({
+      title: song.title,
+      artists: song.artists,
+      tags: song.tags
+    }, blob.url);
 
-
+    revalidatePath('/songs');
+    redirect('/songs');
   } catch (error) {
     console.error('Failed to upload file or save song:', error);
     return { success: false, message: 'Failed to upload file or save song' };
   }
-
-  revalidatePath('/songs');
-  redirect('/songs');
 }
+
 async function createSongQueries(
-  title: string,
+  { title, artists, tags }: { title: string; artists?: Artist[]; tags?: Tag[] },
   file_path: string,
-  artists: string[] = [],
-  tags: string[] = []
 ) {
   // Insert song into the songs table and get the song ID
   const songResult = await sql`
@@ -128,54 +150,29 @@ async function createSongQueries(
   const song_id = songResult.rows[0].id;
 
   // Insert artists into the artists table and link them to the song
-  for (const artist of artists) {
-    let artistResult = await sql`
-      INSERT INTO artists (name)
-      VALUES (${artist})
-      ON CONFLICT (name) DO NOTHING
-      RETURNING id
-    `;
-
-    // If no rows are returned, fetch the artist id
-    if (artistResult.rows.length === 0) {
-      artistResult = await sql`
-        SELECT id FROM artists WHERE name = ${artist}
+  if(artists){
+    for (const artist of artists) {
+      await sql`
+        INSERT INTO songs_artists (songs_id, artists_id)
+        VALUES (${song_id}, ${artist.id})
       `;
     }
-    const artist_id = artistResult.rows[0].id;
-
-    await sql`
-      INSERT INTO songs_artists (songs_id, artists_id)
-      VALUES (${song_id}, ${artist_id})
-    `;
   }
 
-  // Insert tags into the tags table and link them to the song
-  for (const tag of tags) {
-    let tagResult = await sql`
-      INSERT INTO tags (name)
-      VALUES (${tag})
-      ON CONFLICT (name) DO NOTHING
-      RETURNING id
-    `;
-
-    // If no rows are returned, fetch the tag id
-    if (tagResult.rows.length === 0) {
-      tagResult = await sql`
-        SELECT id FROM tags WHERE name = ${tag}
+  if(tags){
+    // Insert tags into the tags table and link them to the song
+    for (const tag of tags) {
+      await sql`
+        INSERT INTO songs_tags (songs_id, tags_id)
+        VALUES (${song_id}, ${tag.id})
       `;
     }
-    const tag_id = tagResult.rows[0].id;
-
-    await sql`
-      INSERT INTO songs_tags (songs_id, tags_id)
-      VALUES (${song_id}, ${tag_id})
-    `;
   }
+
 }
 export async function updateSong(id: string, formData: FormData) {
   // Validate the form data
-  const validatedFields = UpdateSong.safeParse({
+  const validatedFields = FormSchema.safeParse({
     title: formData.get('title') as string,
     file_path: formData.get('file_path') as string,
     artists: formData.getAll('artists') as string[] | undefined,

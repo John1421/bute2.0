@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { Artist, Song, Tag } from './definitions';
+import { Artist, Song, SongForm, Tag } from './definitions';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -72,9 +72,30 @@ export async function fetchSongById(id: string) {
       WHERE songs.id = ${id};
     `;
 
-    const song = data.rows
+    const tags = await sql<Tag>`
+      SELECT tags.*
+      FROM tags
+      JOIN songs_tags ON tags.id = songs_tags.tags_id
+      WHERE songs_tags.songs_id = ${id};
+    `;
+    const artists = await sql<Artist>`
+      SELECT artists.*
+      FROM artists
+      JOIN songs_artists ON artists.id = songs_artists.artists_id
+      WHERE songs_artists.songs_id = ${id};
+    `;
 
-    return song[0];
+    const song = data.rows[0]
+
+    const songForm : SongForm = {
+      id: song.id,
+      title: song.title,
+      file_path: song.file_path,
+      tags: tags.rows,
+      artists: artists.rows
+    }
+
+    return songForm
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch Song.');

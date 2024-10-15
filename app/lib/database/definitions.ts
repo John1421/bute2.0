@@ -2,7 +2,6 @@ export type Song = {
     id: string;
     title: string;
     file_path: string;
-    data: string;
 };
 
 export type SongForm = {

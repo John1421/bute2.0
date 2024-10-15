@@ -13,33 +13,41 @@ import { createArtist, createSong, createTag, updateArtist, updateSong, updateTa
 import { Button } from '../button';
 import { Artist, Song, SongForm, Tag } from '@/app/lib/database/definitions';
 import Uploader from '@/components/Uploader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MultiSelect from './multiselect';
 
 
 export default function Form({ song, artists, tags }: { song?: SongForm, artists: Artist[], tags:Tag[]}) {
 
   const [file, setFile] = useState<File | null>(null);
+  const [selectedArtists, setSelectedArtists] = useState<Artist[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
 
   const handleSubmit = async (formData: FormData) => {
-    if (file) {
+    if (file !== null) {
       formData.append('file', file);
     }
+    // Convert selected tags and artists to JSON arrays
+    const tagsArray = selectedTags.map(tag => tag.name); // Assuming Tag has an id property
+    const artistsArray = selectedArtists.map(artist => artist.name); // Assuming Artist has an id property
+
+    // Append tags and artists as JSON strings
+    formData.append('tags', JSON.stringify(tagsArray));
+    formData.append('artists', JSON.stringify(artistsArray));
+
     if(song){
       await updateSong(song.id, formData);
     }else{
       await createSong(formData);
     }
   };
-
-  const [selectedArtists, setSelectedArtists] = useState<Artist[]>([]);
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
-
-  if(song) {
-    setSelectedArtists(song.artists);
-    setSelectedTags(song.tags)
-  }
+  useEffect(() => {
+    if (song) {
+      setSelectedArtists(song.artists || []);
+      setSelectedTags(song.tags || []);
+    }
+  }, [song]);
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
