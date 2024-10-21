@@ -21,3 +21,12 @@ export type Tag = {
     id: string;
     name: string;
 };
+
+export interface IShowable {
+    id: string;            // Common identifier for all entities
+    name?: string;         // Artists and Tags have names, but Songs may not
+    title?: string;        // Songs have titles, but Artists and Tags may not
+  }
+
+
+export type EntityType = 'songs' | 'artists' | 'tags';

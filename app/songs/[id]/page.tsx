@@ -1,5 +1,5 @@
 // components/SongComponent.tsx
-import { fetchSongById } from '@/app/lib/database/data';
+import { fetchSongById } from '@/lib/database/data';
 import { courierPrime } from '@/components/ui/fonts';
 import Breadcrumbs from '@/components/ui/songs/breadcrumbs';
 import SongDisplay from '../../../components/ui/SongDisplay';

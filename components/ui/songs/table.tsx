@@ -1,8 +1,60 @@
-import { fetchFilteredArtists, fetchFilteredSongs, fetchFilteredTags } from '@/app/lib/database/data';
+import { fetchFilteredArtists, fetchFilteredSongs, fetchFilteredTags } from '@/lib/database/data';
 import React from 'react';
 import Link from 'next/link';
 import { DeleteArtist, DeleteSong, DeleteTag, UpdateButton } from './buttons';
-import { isProduction } from '@/app/lib/utils';
+import { isProduction } from '@/lib/utils';
+import { EntityType, IShowable } from '@/lib/database/definitions';
+
+
+// Generic Table Component
+export async function GenericTable({
+  entityType,
+  query,
+  currentPage,
+}: {
+  entityType: EntityType;
+  query: string;
+  currentPage: number;
+}) {
+  let entities: IShowable[] = [];
+  const entityLink = (entity : IShowable) => `/${entityType}/${entity.id}`;
+  
+  
+  switch (entityType) {
+    case 'songs':
+      entities = await fetchFilteredSongs(query, currentPage);  // This returns an array of IShowable (with `title` for songs)
+      break;
+    case 'artists':
+      entities = await fetchFilteredArtists(query, currentPage); // This returns an array of IShowable (with `name` for artists)
+      break;
+    case 'tags':
+      entities = await fetchFilteredTags(query, currentPage); // This returns an array of IShowable (with `name` for tags)
+      break;
+  }
+
+  return (
+    <div className="w-full flex flex-col gap-2 rounded-lg p-2 bg-surface-400 dark:bg-surface-dark-300 text-text dark:text-text-dark">
+      {entities?.map((entity) => (
+        <div key={entity.id}>
+          <div className="w-full rounded-md bg-surface-600 dark:bg-surface-dark-400 p-4">
+            <Link href={entityLink(entity)}>
+              <h3 className='text-bold'>{entity.title || entity.name}</h3>
+            </Link>
+
+            <div className="hidden md:flex justify-end gap-2">
+              {isProduction ? null : (
+                <>
+                  <UpdateButton id={entity.id} type={entityType} />
+                  {/* {entityDeleteButton(entity)} */}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 
 export async function SongsTable({

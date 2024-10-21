@@ -1,4 +1,4 @@
-import { fetchArtistById, fetchSongById } from '@/app/lib/database/data';
+import { fetchArtistById, fetchSongById } from '@/lib/database/data';
 import Breadcrumbs from '@/components/ui/songs/breadcrumbs';
 import Form, { ArtistForm } from '@/components/ui/songs/form';
 import { notFound } from 'next/navigation';

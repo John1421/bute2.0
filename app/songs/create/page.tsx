@@ -1,4 +1,4 @@
-import { fetchArtists, fetchTags } from '@/app/lib/database/data';
+import { fetchArtists, fetchTags } from '@/lib/database/data';
 import Breadcrumbs from '@/components/ui/songs/breadcrumbs';
 import Form from '@/components/ui/songs/form';
  

@@ -9,9 +9,9 @@ import {
   UserGroupIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
-import { createArtist, createSong, createTag, updateArtist, updateSong, updateTag } from '@/app/lib/actions'; // Adjust the import according to your setup
+import { createArtist, createSong, createTag, updateArtist, updateSong, updateTag } from '@/lib/actions'; // Adjust the import according to your setup
 import { Button } from '../button';
-import { Artist, Song, SongForm, Tag } from '@/app/lib/database/definitions';
+import { Artist, Song, SongForm, Tag } from '@/lib/database/definitions';
 import Uploader from '@/components/Uploader';
 import { useEffect, useState } from 'react';
 import MultiSelect from './multiselect';

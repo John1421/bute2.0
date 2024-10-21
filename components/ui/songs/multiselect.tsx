@@ -1,4 +1,4 @@
-import { Artist } from '@/app/lib/database/definitions';
+import { Artist } from '@/lib/database/definitions';
 import React, { useState } from 'react';
 
 

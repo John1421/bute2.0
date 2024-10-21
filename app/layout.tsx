@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={`${roboto.className} bg-surface-500 dark:bg-surface-dark-200`}>
         <NavBar />
         <main className="md:overflow-hidden">
-          {children}
+          <section className="md:overflow-y-auto p-6 md:p-12">{children}</section>
         </main>
       </body>
     </html>

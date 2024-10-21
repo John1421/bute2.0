@@ -2,8 +2,8 @@ import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import MagicButton from '../magic-button';
 import ButtonLink from '../button-link';
-import { deleteArtist, deleteSong, deleteTag } from '@/app/lib/actions';
-import { Artist, Song, Tag } from '@/app/lib/database/definitions';
+import { deleteArtist, deleteSong, deleteTag } from '@/lib/actions';
+import { Artist, EntityType, Song, Tag } from '@/lib/database/definitions';
 
 
 
@@ -15,7 +15,7 @@ export function CreateButton({href, text}: {href: string, text: string}){
   );
 }
 
-export function UpdateButton({type, id}: {type: "artists" | "songs" | "tags", id: string}){
+export function UpdateButton({type, id}: {type: EntityType, id: string}){
   return (
     <ButtonLink href={`/${type}/${id}/edit`} text="" icon={<PencilIcon className="w-5" />} className='w-8 h-8 md:w-10 md:h-10'/>
   );

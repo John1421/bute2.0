@@ -3,8 +3,8 @@ import { oswald } from "@/components/ui/fonts";
 import { CreateButton } from "@/components/ui/songs/buttons";
 import Pagination from "@/components/ui/songs/pagination";
 import { ArtistsTable, TagsTable } from "@/components/ui/songs/table";
-import { fetchArtistsPages, fetchTagsPages } from "../lib/database/data";
-import { isProduction } from "../lib/utils";
+import { fetchArtistsPages, fetchTagsPages } from "../../lib/database/data";
+import { isProduction } from "../../lib/utils";
 
 export default async function Home({
     searchParams,
